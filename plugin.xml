@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            id="org.python.pydev.django.contribution1">
+         <menu
+               label="Django"
+               path="additions"
+               id="org.python.pydev.django.menu1">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="Django Commands"
+               class="org.python.pydev.django.popup.actions.NewAction"
+               menubarPath="org.python.pydev.django.menu1/group1"
+               enablesFor="1"
+               id="org.python.pydev.django.newAction">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.python.pydev.prefs"
+            class="org.python.pydev.django.preferences.DjangoPreferencePage"
+            id="org.python.pydev.django.preferences.DjangoPreferencePage"
+            name="Django Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.python.pydev.django.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Django"
+            id="org.python.pydev.django">
+      </category>
+      <view
+            name="Django View"
+            icon="icons/django-16.gif"
+            category="org.python.pydev.django"
+            class="org.python.pydev.django.views.DjangoView"
+            id="org.python.pydev.django.views.DjangoView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="org.python.pydev.django.views.DjangoView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            canFinishEarly="false"
+            category="org.python.pydev.PythonCategory"
+            class="org.python.pydev.django.wizards.DjangoWizard"
+            finalPerspective="org.python.pydev.ui.PythonPerspective"
+            hasPages="true"
+            id="org.python.pydev.django.wizards.DjangoWizard"
+            name="Pydev Django"
+            preferredPerspectives="org.python.pydev.ui.PythonPerspective"
+            project="true">
+      </wizard>
+   </extension>
+
+</plugin>
