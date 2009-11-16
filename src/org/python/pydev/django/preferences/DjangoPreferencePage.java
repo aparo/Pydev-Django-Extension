@@ -36,6 +36,8 @@ public class DjangoPreferencePage
 	 * restore itself.
 	 */
 	public void createFieldEditors() {
+		addField(new DirectoryFieldEditor(PreferenceConstants.DJANGO_PATH, 
+				"&Django Directory:", getFieldEditorParent()));
 		addField(new RadioGroupFieldEditor(
 				PreferenceConstants.DJANGO_VERSION,
 			"Django Version",
