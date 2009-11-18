@@ -28,27 +28,24 @@ public class DjangoProjectDetails extends PropertyPage {
      * This  class provides a way to show to the user the options available to configure a project with the
      * correct interpreter and grammar.
      */
-    public static class ProjectInterpreterAndGrammarConfig{
-        private static final String INTERPRETER_NOT_CONFIGURED_MSG = "<a>Please configure Django Installation to use.</a>";
-        public Button radioPy;
-        public Button radioJy;
-        public Button radioIron;
-        public Combo comboGrammarVersion;
+    public static class DjangoVersionAndConf{
+        private static final String DJANGO_NOT_CONFIGURED_MSG = "<a>Please configure Django Installation to use.</a>";
         public Label versionLabel;
         public Combo interpretersChoice;
+        public Combo djangoVersionChoice;
         private Link interpreterNoteText;
         private SelectionListener selectionListener;
         private ICallback onSelectionChanged;
-        private Label interpreterLabel;
+        private Label installationLabel;
         
-        public ProjectInterpreterAndGrammarConfig() {
+        public DjangoVersionAndConf() {
             
         }
         
         /**
          * Optionally, a callback may be passed to be called whenever the selection of the project type changes.
          */
-        public ProjectInterpreterAndGrammarConfig(ICallback callback) {
+        public DjangoVersionAndConf(ICallback callback) {
             this.onSelectionChanged = callback;
         }
 
@@ -74,18 +71,6 @@ public class DjangoProjectDetails extends PropertyPage {
             group.setLayout(layout);
             gd= new GridData(GridData.FILL_HORIZONTAL);
             group.setLayoutData(gd);
-
-            radioPy = new Button(group, SWT.RADIO | SWT.LEFT);
-            radioPy.setText("Python");
-            
-            radioJy = new Button(group, SWT.RADIO | SWT.LEFT);
-            radioJy.setText("Jython");
-            
-            
-            radioIron = new Button(group, SWT.RADIO | SWT.LEFT);
-            radioIron.setText("Iron Python");
-            
-            
             
             //Grammar version
             versionLabel = new Label(topComp, 0);
@@ -95,24 +80,20 @@ public class DjangoProjectDetails extends PropertyPage {
             
             
             
-            comboGrammarVersion = new Combo(topComp, SWT.READ_ONLY);
-            comboGrammarVersion.add("2.1");
-            comboGrammarVersion.add("2.2");
-            comboGrammarVersion.add("2.3");
-            comboGrammarVersion.add("2.4");
-            comboGrammarVersion.add("2.5");
-            comboGrammarVersion.add("2.6");
-            comboGrammarVersion.add("3.0");
+            djangoVersionChoice = new Combo(topComp, SWT.READ_ONLY);
+            djangoVersionChoice.add("0.9.6");
+            djangoVersionChoice.add("1.0");
+            djangoVersionChoice.add("1.1.1");
             
             gd= new GridData(GridData.FILL_HORIZONTAL);
-            comboGrammarVersion.setLayoutData(gd);
+            djangoVersionChoice.setLayoutData(gd);
 
             
             //Interpreter
-            interpreterLabel = new Label(topComp, 0);
-            interpreterLabel.setText("Interpreter");
+            installationLabel = new Label(topComp, 0);
+            installationLabel.setText("Interpreter");
             gd= new GridData(GridData.FILL_HORIZONTAL);
-            interpreterLabel.setLayoutData(gd);
+            installationLabel.setLayoutData(gd);
             
 
             //interpreter configured in the project
@@ -135,70 +116,8 @@ public class DjangoProjectDetails extends PropertyPage {
                         }
                     }
                     
-                    IInterpreterManager interpreterManager;
-                    
-                    if(radioJy.getSelection()){
-                        interpreterManager = PydevPlugin.getJythonInterpreterManager();
-                        
-                    }else if(radioIron.getSelection()){
-                        interpreterManager = PydevPlugin.getIronpythonInterpreterManager();
-                        
-                    }else{
-                        interpreterManager = PydevPlugin.getPythonInterpreterManager();
-                    }
-                    
-                    IInterpreterInfo[] interpretersInfo = interpreterManager.getInterpreterInfos();
-                    if(interpretersInfo.length > 0){
-                        ArrayList<String> interpretersWithDefault = new ArrayList<String>();
-                        interpretersWithDefault.add(IPythonNature.DEFAULT_INTERPRETER);
-                        for(IInterpreterInfo info: interpretersInfo){
-                            interpretersWithDefault.add(info.getName());
-                        }
-                        interpretersChoice.setItems(interpretersWithDefault.toArray(new String[0]));
-                        
-                        interpretersChoice.setVisible(true);
-                        interpreterNoteText.setText("<a>Click here to configure an interpreter not listed.</a>");
-                        interpretersChoice.setText(IPythonNature.DEFAULT_INTERPRETER);
-                        
-                    }else{
-                        interpretersChoice.setVisible(false);
-                        interpreterNoteText.setText(INTERPRETER_NOT_CONFIGURED_MSG);
-                        
-                    }
-                    //config which preferences page should be opened!
-                    switch(interpreterManager.getInterpreterType()){
-                        case IInterpreterManager.INTERPRETER_TYPE_PYTHON:
-                            idToConfig[0] = "org.python.pydev.ui.pythonpathconf.interpreterPreferencesPagePython";
-                            break;
-                        
-                        case IInterpreterManager.INTERPRETER_TYPE_JYTHON:
-                            idToConfig[0] = "org.python.pydev.ui.pythonpathconf.interpreterPreferencesPageJython";
-                            break;
-                            
-                        case IInterpreterManager.INTERPRETER_TYPE_IRONPYTHON:
-                            idToConfig[0] = "org.python.pydev.ui.pythonpathconf.interpreterPreferencesPageIronpython";
-                            break;
-                            
-                        default:
-                            throw new RuntimeException("Cannot recognize type: "+interpreterManager.getInterpreterType());
-                            
-                    }
-                    if(onSelectionChanged != null){
-                        try {
-                            onSelectionChanged.call(null);
-                        } catch (Exception e1) {
-                            PydevPlugin.log(e1);
-                        }
-                    }
                 }
             };
-            
-            gd= new GridData(GridData.FILL_HORIZONTAL);
-            interpretersChoice.setLayoutData(gd);
-            radioPy.addSelectionListener(selectionListener);
-            radioJy.addSelectionListener(selectionListener);
-            radioIron.addSelectionListener(selectionListener);
-            
             
             interpreterNoteText = new Link(topComp, SWT.LEFT | SWT.WRAP);
             gd= new GridData(GridData.FILL_HORIZONTAL);

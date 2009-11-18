@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.python.pydev.django.preferences.PreferenceConstants;
+import org.python.pydev.django.ui.DjangoProjectDetails;
 import org.python.pydev.ui.PyProjectPythonDetails;
 import org.python.pydev.ui.wizards.project.NewProjectNameAndLocationWizardPage;
 import org.python.pydev.utils.ICallback;
@@ -170,7 +171,7 @@ public class DjangoConfigWizardPage extends WizardPage {
 	
     /**
      * @param composite
-     */
+
     private void createProjectDetails(Composite parent) {
         Font font = parent.getFont();
         Composite projectDetails = new Composite(parent, SWT.NONE);
@@ -184,7 +185,7 @@ public class DjangoConfigWizardPage extends WizardPage {
         projectTypeLabel.setFont(font);
         projectTypeLabel.setText("Project type");
         //let him choose the type of the project
-        details = new PyProjectPythonDetails.ProjectInterpreterAndGrammarConfig(new ICallback(){
+        details = new DjangoProjectDetails.DjangoVersionAndConf(new ICallback(){
 
             //Whenever the configuration changes there, we must evaluate whether the page is complete
             public Object call(Object args) throws Exception {
@@ -199,7 +200,7 @@ public class DjangoConfigWizardPage extends WizardPage {
         data.grabExcessHorizontalSpace = true;
         createdOn.setLayoutData(data);
     }
-
+     */
 
     public List<String> getExternalSourceFolders(){
         return externalSourceFolders;
