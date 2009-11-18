@@ -74,6 +74,7 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
+      		icon="icons/django-16.gif"
             canFinishEarly="false"
             category="org.python.pydev.PythonCategory"
             class="org.python.pydev.django.wizards.DjangoWizard"

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -22,20 +23,30 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.python.pydev.django.preferences.PreferenceConstants;
 
 /**
  * @author alberto
- *
+ * @author Flavio [FlaPer87] Percoco Premoli
  */
 public class DjangoConfigWizardPage extends WizardPage {
 	private Text djangoLocationPathField;
 	
 	private Label djangoLocationLabel;
 	
+	public Button radio11;
+	
+	public Button radio10;
+	
+	public Button radio09;
+	
 	private Button browseButton;
+	
+	private String djangoSrcPath;
 	
 	private Listener locationModifyListener = new Listener() {
         public void handleEvent(Event e) {
@@ -62,6 +73,8 @@ public class DjangoConfigWizardPage extends WizardPage {
         composite.setFont(parent.getFont());
         
         createDjangoLocationGroup(composite);
+        
+        createDjangoVersionGroup(composite);
 
         // Show description on opening
         setErrorMessage(null);
@@ -118,7 +131,37 @@ public class DjangoConfigWizardPage extends WizardPage {
             }
         });
 
-        browseButton.setEnabled(true);
+        browseButton.setEnabled(true);        
+	}
+
+	public void createDjangoVersionGroup(Composite parent) {
+        Font font = parent.getFont();
+        // project specification group
+        Composite projectGroup = new Composite(parent, SWT.NONE);
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 3;
+        projectGroup.setLayout(layout);
+        projectGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        projectGroup.setFont(font);
+        
+      //Project type
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        Group group = new Group(projectGroup, SWT.NONE);
+        group.setText("Choose the django project version");
+        group.setLayout(layout);
+        //gd= new GridData(GridData.FILL_HORIZONTAL);
+        group.setLayoutData(gd);
+        
+        radio11 = new Button(group, SWT.RADIO | SWT.LEFT);
+        radio11.setText("1.1.1");
+        
+        radio10 = new Button(group, SWT.RADIO | SWT.LEFT);
+        radio10.setText("1.0");
+        
+        
+        radio09 = new Button(group, SWT.RADIO | SWT.LEFT);
+        radio09.setText("0.9.6");
+        
 	}
 
     public List<String> getExternalSourceFolders(){
@@ -138,7 +181,8 @@ public class DjangoConfigWizardPage extends WizardPage {
 
         String selectedDirectory = dialog.open();
         if (selectedDirectory != null) {
-            djangoLocationPathField.setText(selectedDirectory);
+        	djangoSrcPath = selectedDirectory;
+            djangoLocationPathField.setText(djangoSrcPath);
         }
     }
     
@@ -158,5 +202,12 @@ public class DjangoConfigWizardPage extends WizardPage {
     	setErrorMessage(null);
     	setMessage(null);
     	return true;
+    }
+    
+    /**
+     * Returns the django project template dir.
+     */
+    public String getProjectTemplateDir() {
+    	return djangoSrcPath + "/conf/project_template/";
     }
 }

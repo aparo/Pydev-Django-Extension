@@ -19,6 +19,9 @@ import org.python.pydev.django.Activator;
  * be accessed directly via the preference store.
  */
 
+/**
+ * @author Flavio [FlaPer87] Percoco Premoli
+ */
 public class DjangoPreferencePage
 	extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
