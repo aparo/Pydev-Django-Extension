@@ -21,6 +21,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -28,6 +29,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.python.pydev.django.preferences.PreferenceConstants;
+import org.python.pydev.ui.PyProjectPythonDetails;
+import org.python.pydev.ui.wizards.project.NewProjectNameAndLocationWizardPage;
+import org.python.pydev.utils.ICallback;
 
 /**
  * @author alberto
@@ -163,6 +167,39 @@ public class DjangoConfigWizardPage extends WizardPage {
         radio09.setText("0.9.6");
         
 	}
+	
+    /**
+     * @param composite
+     */
+    private void createProjectDetails(Composite parent) {
+        Font font = parent.getFont();
+        Composite projectDetails = new Composite(parent, SWT.NONE);
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 1;
+        projectDetails.setLayout(layout);
+        projectDetails.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        projectDetails.setFont(font);
+
+        Label projectTypeLabel = new Label(projectDetails, SWT.NONE);
+        projectTypeLabel.setFont(font);
+        projectTypeLabel.setText("Project type");
+        //let him choose the type of the project
+        details = new PyProjectPythonDetails.ProjectInterpreterAndGrammarConfig(new ICallback(){
+
+            //Whenever the configuration changes there, we must evaluate whether the page is complete
+            public Object call(Object args) throws Exception {
+                setPageComplete(NewProjectNameAndLocationWizardPage.this.validatePage());
+                return null;
+            }}
+        );
+        
+        Control createdOn = details.doCreateContents(projectDetails);
+        details.setDefaultSelection();
+        GridData data=new GridData(GridData.FILL_HORIZONTAL);
+        data.grabExcessHorizontalSpace = true;
+        createdOn.setLayoutData(data);
+    }
+
 
     public List<String> getExternalSourceFolders(){
         return externalSourceFolders;

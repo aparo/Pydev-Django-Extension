@@ -28,7 +28,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="org.python.pydev.prefs"
-            class="org.python.pydev.django.preferences.DjangoPreferencePage"
+            class="org.python.pydev.django.ui.DjangoPreferencePage"
             id="org.python.pydev.django.preferences.DjangoPreferencePage"
             name="Django Preferences">
       </page>
