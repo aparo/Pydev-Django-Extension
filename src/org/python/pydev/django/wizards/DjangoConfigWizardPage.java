@@ -9,30 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.python.pydev.django.preferences.PreferenceConstants;
-import org.python.pydev.django.ui.DjangoProjectDetails;
-import org.python.pydev.ui.PyProjectPythonDetails;
-import org.python.pydev.ui.wizards.project.NewProjectNameAndLocationWizardPage;
-import org.python.pydev.utils.ICallback;
 
 /**
  * @author alberto
@@ -219,8 +210,7 @@ public class DjangoConfigWizardPage extends WizardPage {
 
         String selectedDirectory = dialog.open();
         if (selectedDirectory != null) {
-        	djangoSrcPath = selectedDirectory;
-            djangoLocationPathField.setText(djangoSrcPath);
+            djangoLocationPathField.setText(selectedDirectory);
         }
     }
     
