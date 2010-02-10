@@ -55,12 +55,12 @@ public class DjangoWizard extends PythonProjectWizard {
     	if(projectPage.shouldCreatSourceFolder()) {
     		djangoProjectPath += "/src";
     	} else {
-    		djangoProjectPath += newProjectHandle.getName();
+    		djangoProjectPath += "/" + newProjectHandle.getName();
     		if (!(new File(djangoProjectPath)).mkdir())
     			// TODO: implement fail method
     			System.out.println("Fail");
     	}
-    	
+    	///home/flaper87/.virtualenvs/r2d2/lib/python2.6/site-packages/django
     	String templates_dir = djangoProjectPage.getProjectTemplateDir();
     	
     	File dir = new File(templates_dir);

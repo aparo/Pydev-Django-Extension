@@ -234,6 +234,8 @@ public class DjangoConfigWizardPage extends WizardPage {
     		if (!chkDir.exists()) {
     			setErrorMessage("Select the right django path");
     			return false;
+    		} else {
+    			djangoSrcPath = djangoLocationPathField.getText();
     		}
     	}
     	
